@@ -15,7 +15,9 @@
     "dev": "electron-vite dev",
     "build": "electron-vite build",
     "preview": "electron-vite preview",
-    "dist": "npm run build && electron-builder --win",
+    "dist": "npm run build && electron-builder --win zip",
+    "dist:zip": "npm run build && electron-builder --win zip",
+    "dist:setup": "npm run build && electron-builder --win nsis",
     "dist:dir": "npm run build && electron-builder --win --dir"
   },
   "dependencies": {
@@ -51,14 +53,14 @@
     "win": {
       "target": [
         {
-          "target": "nsis",
+          "target": "zip",
           "arch": [
             "x64"
           ]
         }
       ],
       "icon": "resources/icon.ico",
-      "artifactName": "${productName}-${version}-Setup.${ext}"
+      "artifactName": "${productName}-${version}-win-x64.${ext}"
     },
     "nsis": {
       "oneClick": false,
@@ -67,7 +69,8 @@
       "createStartMenuShortcut": true,
       "shortcutName": "GaugeStudio",
       "installerIcon": "resources/icon.ico",
-      "uninstallerIcon": "resources/icon.ico"
+      "uninstallerIcon": "resources/icon.ico",
+      "artifactName": "${productName}-${version}-Setup.${ext}"
     },
     "publish": null
   }

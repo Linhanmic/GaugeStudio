@@ -46,13 +46,23 @@ npm run build
 
 产物在 `out/`（main / preload / renderer）。
 
-Windows 安装包：
+Windows 免安装包（ZIP，默认）：
 
 ```bash
 npm run dist
+# 或
+npm run dist:zip
 ```
 
-产物在 `release/`（如 `GaugeStudio-0.1.0-Setup.exe`）。仅生成未打包目录可用 `npm run dist:dir`。
+产物：`release/GaugeStudio-0.1.0-win-x64.zip`。解压后运行其中的 `GaugeStudio.exe`。
+
+Windows 安装包（可选）：
+
+```bash
+npm run dist:setup
+```
+
+产物：`release/GaugeStudio-0.1.0-Setup.exe`。仅生成未打包目录可用 `npm run dist:dir`。
 
 若下载 electron-builder 二进制失败（常见于国内网络），可先设置镜像再打包：
 
