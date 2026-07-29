@@ -46,6 +46,21 @@ npm run build
 
 产物在 `out/`（main / preload / renderer）。
 
+Windows 安装包：
+
+```bash
+npm run dist
+```
+
+产物在 `release/`（如 `GaugeStudio-0.1.0-Setup.exe`）。仅生成未打包目录可用 `npm run dist:dir`。
+
+若下载 electron-builder 二进制失败（常见于国内网络），可先设置镜像再打包：
+
+```powershell
+$env:ELECTRON_BUILDER_BINARIES_MIRROR='https://npmmirror.com/mirrors/electron-builder-binaries/'
+npm run dist
+```
+
 ## 联调 gauge-js-demo（smoke）
 
 ### 前置条件
@@ -70,11 +85,11 @@ npm run build
 1. `npm run dev` 启动 GaugeStudio
 2. 左侧点「打开」，选择仓库中的 `gauge-js-demo` 目录
 3. 确认 `specs/smoke.spec` 已勾选（默认勾选含 smoke 的 spec）
-4. Tags 可留「通用」（不会传给 CLI）；需要时再改
+4. Tags 可留空或填写表达式（非空时会传 `--tags`）
 5. 点 **Run**
    - **控制台**：gauge stdout/stderr
-   - **实时运行**：仅当前 Scenario（含 Concept 嵌套）
-   - **运行结果**：卡片 + 右侧详情；失败可「重试失败 / 重试本行」
+   - **实时运行**：仅当前 Scenario（含 Concept 嵌套与数据驱动参数）
+   - **运行结果**：标准/极简卡片 + 右侧详情；失败可「重试失败 / 重试本行」
 6. 双击 `.spec` 进入编辑页，可保存写盘；步骤行 `*` 后输入可触发 CPT Concept 补全
 
 ### 命令行对照（不经 UI）

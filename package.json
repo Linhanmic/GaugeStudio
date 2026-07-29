@@ -2,12 +2,21 @@
   "name": "gaugestudio",
   "version": "0.1.0",
   "description": "Gauge test management desktop app (Electron + Vue3)",
+  "author": "Linhanmic",
+  "license": "MIT",
+  "homepage": "https://github.com/Linhanmic/GaugeStudio",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Linhanmic/GaugeStudio.git"
+  },
   "main": "./out/main/index.js",
   "type": "module",
   "scripts": {
     "dev": "electron-vite dev",
     "build": "electron-vite build",
-    "preview": "electron-vite preview"
+    "preview": "electron-vite preview",
+    "dist": "npm run build && electron-builder --win",
+    "dist:dir": "npm run build && electron-builder --win --dir"
   },
   "dependencies": {
     "pinia": "^2.3.1",
@@ -18,8 +27,48 @@
     "@vitejs/plugin-vue": "^5.2.3",
     "autoprefixer": "^10.4.21",
     "electron": "^35.1.2",
+    "electron-builder": "^26.15.3",
     "electron-vite": "^3.1.0",
     "postcss": "^8.5.3",
     "tailwindcss": "^3.4.17"
+  },
+  "build": {
+    "appId": "com.gaugestudio.app",
+    "productName": "GaugeStudio",
+    "copyright": "Copyright © GaugeStudio",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "out/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "resources/",
+        "to": "resources/"
+      }
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "resources/icon.ico",
+      "artifactName": "${productName}-${version}-Setup.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "GaugeStudio",
+      "installerIcon": "resources/icon.ico",
+      "uninstallerIcon": "resources/icon.ico"
+    },
+    "publish": null
   }
 }

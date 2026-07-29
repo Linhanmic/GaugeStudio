@@ -41,7 +41,9 @@ wsServer.onConnectionChange = (count) =>
 
 function resolveIcon() {
   // Prefer Windows .ico (taskbar); fall back to PNG used by in-app logo
-  const base = join(__dirname, '../../resources')
+  const base = app.isPackaged
+    ? join(process.resourcesPath, 'resources')
+    : join(__dirname, '../../resources')
   const ico = join(base, 'icon.ico')
   const png = join(base, 'icon.png')
   if (process.platform === 'win32' && existsSync(ico)) return ico
