@@ -88,7 +88,10 @@ function tableRowClass({ rowIndex }) {
 <template>
   <div class="gs-panel">
     <div class="gs-panel-header">
-      <h2>运行结果</h2>
+      <div>
+        <span class="stage-kicker">Results</span>
+        <h2>运行结果</h2>
+      </div>
       <div class="results-toolbar">
         <el-segmented v-model="density" :options="densityOptions" />
         <el-segmented v-model="execution.resultsFilter" :options="filters" />

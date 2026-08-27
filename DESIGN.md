@@ -61,23 +61,20 @@ flowchart TB
 
 ```mermaid
 flowchart TB
-  subgraph chrome [顶栏]
-    Tabs[控制台_实时_结果_编辑]
-    RunStop[Run_Stop_重试失败]
-    Tags[Tags会话级]
-    Status[状态与计数]
-    Reporter[Reporter端口徽章]
-    Settings[设置]
+  subgraph chrome [壳层]
+    Rail[左侧活动栏_四页加设置]
+    Dock[顶部命令坞_Run_Stop_Tags]
+    Status[底栏_项目_Reporter_计数]
   end
   subgraph body [主体]
-    Tree[左侧Spec树]
-    Pages[右侧页面区]
+    Tree[Spec资源管理器]
+    Pages[工作区页面]
   end
   chrome --> body
   Tree -->|双击| Editor[Spec编辑]
-  RunStop -->|stdout| Console[控制台]
-  RunStop -->|WS事件| Live[实时当前Scenario]
-  RunStop -->|聚合| Results[结果卡片加详情]
+  Dock -->|stdout| Console[控制台]
+  Dock -->|WS事件| Live[实时当前Scenario]
+  Dock -->|聚合| Results[结果卡片加详情]
 ```
 
 | 区域 | 规则 |

@@ -7,9 +7,12 @@ const app = useAppStore()
 </script>
 
 <template>
-  <div class="gs-panel">
-    <div class="gs-panel-header">
-      <h2>测试脚本</h2>
+  <aside v-show="!app.explorerCollapsed" class="explorer">
+    <div class="explorer-head">
+      <div>
+        <span class="explorer-kicker">Project</span>
+        <h2>测试脚本</h2>
+      </div>
       <el-button-group>
         <el-button
           title="重新扫描项目 Spec / Concept"
@@ -17,22 +20,27 @@ const app = useAppStore()
           :icon="Refresh"
           @click="app.refreshProject()"
         />
-        <el-button title="打开 Gauge 项目" :icon="FolderOpened" @click="app.pickAndOpenProject()">打开</el-button>
         <el-button title="展开全部" :disabled="!app.project" :icon="Expand" @click="app.expandAll()" />
         <el-button title="折叠全部" :disabled="!app.project" :icon="Fold" @click="app.collapseAll()" />
       </el-button-group>
     </div>
-    <div class="sidebar-body">
-      <el-empty
-        v-if="!app.project"
-        :image-size="72"
-        description="点击「打开」选择 Gauge 项目目录"
-      >
-        <template #default>
-          <p class="empty-code">例如 gauge-js-demo</p>
-        </template>
-      </el-empty>
+
+    <div v-if="app.project" class="explorer-meta">
+      <el-tooltip :content="app.project.path" placement="bottom">
+        <code>{{ app.project.name }}</code>
+      </el-tooltip>
+      <span>{{ app.checkedSpecs.length }} 已选</span>
+    </div>
+
+    <div class="explorer-body">
+      <div v-if="!app.project" class="studio-empty">
+        <p>打开本地 Gauge 项目以加载 Spec 树</p>
+        <el-button type="primary" :icon="FolderOpened" @click="app.pickAndOpenProject()">
+          打开项目目录
+        </el-button>
+        <code>例如 gauge-js-demo</code>
+      </div>
       <SpecTree v-else />
     </div>
-  </div>
+  </aside>
 </template>

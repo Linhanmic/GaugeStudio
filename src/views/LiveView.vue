@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue'
+import { VideoPlay } from '@element-plus/icons-vue'
 import { useExecutionStore, formatRowPreview } from '../stores/execution.js'
 import LiveStepTree from '../components/LiveStepTree.vue'
 
@@ -25,15 +26,18 @@ const rowPreview = computed(() => {
 <template>
   <div class="gs-panel live">
     <div class="gs-panel-header">
-      <h2>实时 Scenario</h2>
+      <div>
+        <span class="stage-kicker">Live</span>
+        <h2>当前 Scenario</h2>
+      </div>
       <span class="header-meta">{{ meta }}</span>
     </div>
     <el-scrollbar class="page-scroll">
-      <el-empty
-        v-if="!execution.currentScenario"
-        :image-size="80"
-        description="点击 Run 查看当前 Scenario 执行过程。实时树只保留正在跑的 Scenario（含 Concept / Step）。"
-      />
+      <div v-if="!execution.currentScenario" class="studio-empty live-empty">
+        <el-icon :size="36"><VideoPlay /></el-icon>
+        <p>点击顶部 <strong>Run</strong> 后，这里只跟踪正在执行的 Scenario</p>
+        <small>含 Concept 嵌套与数据驱动行 · 历史结果在「结果」页</small>
+      </div>
       <ul v-else class="tree">
         <li>
           <div class="node focused" :data-status="execution.currentScenario.status" data-kind="scenario">

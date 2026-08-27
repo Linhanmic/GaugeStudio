@@ -135,6 +135,7 @@ watch(
   <div class="gs-panel">
     <div class="gs-panel-header">
       <div class="editor-heading">
+        <span class="stage-kicker">Editor</span>
         <h2>Spec 编辑</h2>
         <span class="editor-path">{{ editor.path || '从左侧双击 .spec 文件打开' }}</span>
       </div>

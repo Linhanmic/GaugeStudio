@@ -34,6 +34,7 @@ export const useAppStore = defineStore('app', {
     settings: { ...DEFAULT_SETTINGS },
     settingsOpen: false,
     settingsPanel: 'general',
+    explorerCollapsed: false,
     project: null,
     wsClients: 0,
     wsPort: 8080,
@@ -90,6 +91,9 @@ export const useAppStore = defineStore('app', {
     goPage(name) {
       if (!name || router.currentRoute.value.name === name) return
       router.push({ name })
+    },
+    toggleExplorer() {
+      this.explorerCollapsed = !this.explorerCollapsed
     },
     async saveSettings(partial) {
       this.settings = await api().settings.save(partial)

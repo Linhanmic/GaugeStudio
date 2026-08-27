@@ -17,14 +17,17 @@ watch(
 </script>
 
 <template>
-  <div class="gs-panel">
+  <div class="gs-panel terminal">
     <div class="gs-panel-header">
-      <h2>控制台</h2>
-      <el-button :icon="Delete" @click="consoleStore.clear()">清空</el-button>
+      <div class="term-title">
+        <span class="term-dots" aria-hidden="true"><i /><i /><i /></span>
+        <h2>gauge stdout / stderr</h2>
+      </div>
+      <el-button text :icon="Delete" @click="consoleStore.clear()">清空</el-button>
     </div>
     <el-scrollbar ref="scrollRef" class="console-scroll">
       <div class="gauge-console" aria-live="polite">
-        <span v-if="consoleStore.isEmpty" class="c-line c-dim">（运行后显示 gauge stdout / stderr）</span>
+        <span v-if="consoleStore.isEmpty" class="c-line c-dim">等待 Run · 此处只显示进程输出，不混入 WebSocket 事件</span>
         <span
           v-for="(line, i) in consoleStore.entries"
           :key="i"

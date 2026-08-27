@@ -61,7 +61,7 @@ function createWindow() {
     minHeight: 640,
     show: false,
     title: 'GaugeStudio',
-    backgroundColor: '#e8edf2',
+    backgroundColor: '#071019',
     icon: iconImage.isEmpty() ? iconPath : iconImage,
     autoHideMenuBar: true,
     webPreferences: {
