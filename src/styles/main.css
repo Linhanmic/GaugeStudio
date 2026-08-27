@@ -332,6 +332,14 @@ body,
   background: var(--text-faint);
 }
 
+.dock-state[data-state='idle'] {
+  color: var(--pass);
+}
+
+.dock-state[data-state='idle'] .state-dot {
+  background: var(--pass);
+}
+
 .dock-state[data-state='running'] {
   color: var(--running);
   background: var(--running-bg);
