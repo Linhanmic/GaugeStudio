@@ -8,14 +8,12 @@ import {
   Setting,
   FolderOpened
 } from '@element-plus/icons-vue'
-import { useAppStore } from '../stores/app.js'
-import { useExecutionStore } from '../stores/execution.js'
+import { useUiStore } from '../stores/ui.js'
 import logoUrl from '../assets/logo.png'
 
 const route = useRoute()
 const router = useRouter()
-const app = useAppStore()
-const execution = useExecutionStore()
+const ui = useUiStore()
 
 const pages = [
   { name: 'console', path: '/console', label: '控制台', icon: Monitor },
@@ -41,22 +39,11 @@ function go(path) {
         :key="p.name"
         type="button"
         class="rail-item"
-        :class="{
-          active: route.path === p.path,
-          pulse: p.name === 'live' && execution.running
-        }"
+        :class="{ active: route.path === p.path }"
         :title="p.label"
         @click="go(p.path)"
       >
-        <el-badge
-          v-if="p.name === 'results' && execution.failedCount"
-          :value="execution.failedCount"
-          type="danger"
-          :max="99"
-        >
-          <el-icon :size="20"><component :is="p.icon" /></el-icon>
-        </el-badge>
-        <el-icon v-else :size="20"><component :is="p.icon" /></el-icon>
+        <el-icon :size="20"><component :is="p.icon" /></el-icon>
         <span>{{ p.label }}</span>
       </button>
     </div>
@@ -65,14 +52,14 @@ function go(path) {
       <button
         type="button"
         class="rail-item"
-        :class="{ active: !app.explorerCollapsed }"
-        title="显示 / 隐藏 Spec 树"
-        @click="app.toggleExplorer()"
+        :class="{ active: !ui.explorerCollapsed }"
+        title="显示 / 隐藏脚本树"
+        @click="ui.toggleExplorer()"
       >
         <el-icon :size="20"><FolderOpened /></el-icon>
         <span>脚本</span>
       </button>
-      <button type="button" class="rail-item" title="运行设置" @click="app.settingsOpen = true">
+      <button type="button" class="rail-item" title="设置" @click="ui.settingsOpen = true">
         <el-icon :size="20"><Setting /></el-icon>
         <span>设置</span>
       </button>

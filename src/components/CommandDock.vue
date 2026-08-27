@@ -2,28 +2,11 @@
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { VideoPlay, VideoPause, RefreshLeft, Delete } from '@element-plus/icons-vue'
-import { useAppStore } from '../stores/app.js'
-import { useExecutionStore } from '../stores/execution.js'
-import { useConsoleStore } from '../stores/console.js'
+import { useUiStore } from '../stores/ui.js'
 
 const route = useRoute()
-const app = useAppStore()
-const execution = useExecutionStore()
-const consoleStore = useConsoleStore()
-
+const ui = useUiStore()
 const pageTitle = computed(() => route.meta.title || 'GaugeStudio')
-
-const statusTone = computed(() => {
-  const s = app.status.state
-  if (s === 'running' || s === 'passed' || s === 'failed') return s
-  return 'idle'
-})
-
-function clearAll() {
-  execution.clearResults()
-  consoleStore.clear()
-  app.status = { state: 'idle', text: '就绪' }
-}
 </script>
 
 <template>
@@ -34,32 +17,19 @@ function clearAll() {
     </div>
 
     <div class="dock-run">
-      <button
-        class="run-btn"
-        type="button"
-        :disabled="execution.running"
-        :class="{ busy: execution.running }"
-        @click="execution.startRun()"
-      >
+      <button class="run-btn" type="button">
         <el-icon><VideoPlay /></el-icon>
         Run
       </button>
-      <button class="ghost-btn danger" type="button" :disabled="!execution.running" @click="execution.stopRun()">
+      <button class="ghost-btn danger" type="button" disabled>
         <el-icon><VideoPause /></el-icon>
         Stop
       </button>
-      <button
-        class="ghost-btn"
-        type="button"
-        :disabled="execution.running || execution.failedCount === 0"
-        title="重试全部失败的 Scenario（数据驱动按失败行）"
-        @click="execution.retryFailed()"
-      >
+      <button class="ghost-btn" type="button" disabled>
         <el-icon><RefreshLeft /></el-icon>
         重试失败
-        <em v-if="execution.failedCount">{{ execution.failedCount }}</em>
       </button>
-      <button class="ghost-btn" type="button" @click="clearAll()">
+      <button class="ghost-btn" type="button" disabled>
         <el-icon><Delete /></el-icon>
         清空
       </button>
@@ -67,12 +37,12 @@ function clearAll() {
 
     <label class="dock-tags">
       <span>Tags</span>
-      <el-input v-model="app.tags" placeholder="通用" clearable />
+      <el-input v-model="ui.tags" placeholder="通用" clearable />
     </label>
 
-    <div class="dock-state" :data-state="statusTone">
+    <div class="dock-state" data-state="idle">
       <i class="state-dot" />
-      <span>{{ app.status.text }}</span>
+      <span>就绪</span>
     </div>
   </header>
 </template>

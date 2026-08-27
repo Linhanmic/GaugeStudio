@@ -1,27 +1,16 @@
 <script setup>
-import { onMounted } from 'vue'
-import { useAppStore } from './stores/app.js'
-import { useExecutionStore } from './stores/execution.js'
-import { useConsoleStore } from './stores/console.js'
 import AppRail from './components/AppRail.vue'
 import CommandDock from './components/CommandDock.vue'
 import SpecSidebar from './components/SpecSidebar.vue'
 import StatusBar from './components/StatusBar.vue'
 import SettingsDialog from './components/SettingsDialog.vue'
+import { useUiStore } from './stores/ui.js'
 
-const app = useAppStore()
-const execution = useExecutionStore()
-const consoleStore = useConsoleStore()
-
-onMounted(async () => {
-  execution.bindEvents()
-  consoleStore.bindEvents()
-  await app.init()
-})
+const ui = useUiStore()
 </script>
 
 <template>
-  <div class="studio" :class="{ 'explorer-collapsed': app.explorerCollapsed }">
+  <div class="studio" :class="{ 'explorer-collapsed': ui.explorerCollapsed }">
     <AppRail />
     <CommandDock />
     <SpecSidebar />
