@@ -16,12 +16,10 @@ const app = useAppStore()
           :disabled="!app.project"
           :icon="Refresh"
           @click="app.refreshProject()"
-        >
-          刷新
-        </el-button>
-        <el-button :icon="FolderOpened" @click="app.pickAndOpenProject()">打开</el-button>
-        <el-button :disabled="!app.project" :icon="Expand" @click="app.expandAll()">展开</el-button>
-        <el-button :disabled="!app.project" :icon="Fold" @click="app.collapseAll()">折叠</el-button>
+        />
+        <el-button title="打开 Gauge 项目" :icon="FolderOpened" @click="app.pickAndOpenProject()">打开</el-button>
+        <el-button title="展开全部" :disabled="!app.project" :icon="Expand" @click="app.expandAll()" />
+        <el-button title="折叠全部" :disabled="!app.project" :icon="Fold" @click="app.collapseAll()" />
       </el-button-group>
     </div>
     <div class="sidebar-body">
