@@ -8,7 +8,6 @@ const editor = useEditorStore()
 
 function onOpen(node) {
   editor.openSpec(node.path)
-  app.setPage('editor')
 }
 </script>
 

@@ -1,6 +1,6 @@
 # GaugeStudio
 
-Gauge 测试管理桌面端（Electron + Vue 3 + JavaScript + Tailwind），对接 [studio-reporter](../studio-reporter/API.md) WebSocket 协议。
+Gauge 测试管理桌面端（Electron + Vue 3 + Element Plus + Pinia + Vue Router + JavaScript），对接 [studio-reporter](../studio-reporter/API.md) WebSocket 协议。
 
 `ui-mock/` 为已验证的 HTML 交互原型，行为以本应用实现为准。
 
@@ -20,8 +20,10 @@ GaugeStudio/
 │       ├── spec-fs.js
 │       └── lsp-service.js   # CPT 补全 + gauge --lsp 进程
 ├── src/                     # Vue Renderer
+│   ├── views/               # vue-router 页面
 │   ├── components/
-│   ├── stores/
+│   ├── stores/              # Pinia
+│   ├── router/
 │   └── styles/
 ├── shared/constants.js
 ├── index.html

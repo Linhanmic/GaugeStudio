@@ -31,7 +31,7 @@ export const useEditorStore = defineStore('editor', {
         this.content = content
         this.savedContent = content
         this.lspOpen = false
-        app.setPage('editor')
+        app.goPage('editor')
       } catch (err) {
         app.showToast(err.message || '读取 Spec 失败')
       }

@@ -5,7 +5,7 @@
 
 协议事实来源：[`studio-reporter/API.md`](../studio-reporter/API.md)（Gauge → Studio **单向** WebSocket 推送）。
 
-技术栈（固定）：**Vue 3 + Electron + JavaScript + Tailwind CSS**，脚手架 **electron-vite**。
+技术栈（固定）：**Vue 3 + Element Plus + Pinia + Vue Router + Electron + JavaScript**，脚手架 **electron-vite**。
 
 ---
 
@@ -209,10 +209,10 @@ GaugeStudio/
 │   │   └── history-store.js    # Phase 2
 │   └── ipc/
 ├── src/                        # Vue Renderer
-│   ├── views/
+│   ├── views/                  # vue-router 页面（控制台 / 实时 / 结果 / 编辑）
 │   ├── components/
-│   ├── stores/
-│   ├── composables/
+│   ├── stores/                 # Pinia
+│   ├── router/
 │   └── styles/
 ├── shared/
 └── package.json
@@ -254,7 +254,7 @@ HTML mock 评审通过（`ui-mock/index.html`）。
 
 ### Phase 1 — Electron MVP 闭环
 
-1. scaffold：electron-vite + Vue3 + Tailwind，按 mock 还原布局  
+1. scaffold：electron-vite + Vue3 + Element Plus + Pinia + Vue Router，按 mock 还原布局  
 2. ProjectService + Spec 树 + 设置持久化（用户数据目录，非仅 localStorage）  
 3. WsServer + RunManager + 控制台 + 实时当前 Scenario + 结果卡片 / 详情  
 4. 重试失败 / 重试本行（含隐藏 `--table-rows`）  

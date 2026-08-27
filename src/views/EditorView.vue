@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed, watch, nextTick } from 'vue'
+import { RefreshRight } from '@element-plus/icons-vue'
 import { useEditorStore } from '../stores/editor.js'
 import { useAppStore } from '../stores/app.js'
 
@@ -13,10 +14,10 @@ const lineNumbers = computed(() => {
   return Array.from({ length: n }, (_, i) => i + 1)
 })
 
-const lspBadgeClass = computed(() => {
-  if (editor.lspRestarting) return 'restarting'
-  if (app.lsp.status === 'offline') return 'offline'
-  return ''
+const lspBadgeType = computed(() => {
+  if (editor.lspRestarting) return 'warning'
+  if (app.lsp.status === 'offline') return 'danger'
+  return 'success'
 })
 
 const lspBadgeText = computed(() => {
@@ -58,7 +59,6 @@ async function positionLsp() {
   const el = ta.value
   const box = lspBox.value
   if (!el || !box || !editor.lspOpen) return
-  // Approximate caret position near top of textarea
   box.style.left = '56px'
   box.style.top = `${Math.min(el.scrollTop + 40, 200)}px`
 }
@@ -132,35 +132,28 @@ watch(
 </script>
 
 <template>
-  <div class="panel">
-    <div class="panel-header">
-      <div class="flex flex-col gap-0.5 min-w-0">
+  <div class="gs-panel">
+    <div class="gs-panel-header">
+      <div class="editor-heading">
         <h2>Spec 编辑</h2>
-        <span class="font-mono text-[11px] text-[var(--text-muted)] font-medium normal-case tracking-normal truncate">
-          {{ editor.path || '从左侧双击 .spec 文件打开' }}
-        </span>
+        <span class="editor-path">{{ editor.path || '从左侧双击 .spec 文件打开' }}</span>
       </div>
-      <div class="flex gap-2">
-        <button class="btn-ghost !py-1 !px-2.5 text-xs" type="button" :disabled="!editor.dirty" @click="editor.revert()">
-          还原
-        </button>
-        <button class="btn-run !py-1 !px-3 text-xs" type="button" :disabled="!editor.path || !editor.dirty" @click="editor.save()">
+      <el-space>
+        <el-button :disabled="!editor.dirty" @click="editor.revert()">还原</el-button>
+        <el-button type="primary" :disabled="!editor.path || !editor.dirty" @click="editor.save()">
           保存
-        </button>
-      </div>
+        </el-button>
+      </el-space>
     </div>
 
-    <div class="flex-1 flex flex-col min-h-0">
-      <div class="flex-1 flex min-h-0 relative border-t border-[var(--border-soft)]">
-        <div
-          class="w-12 bg-[var(--bg-inset)] border-r border-[var(--border-soft)] py-3 overflow-hidden font-mono text-[13px] leading-[1.6] text-[var(--text-faint)] text-right select-none flex-shrink-0"
-          aria-hidden="true"
-        >
-          <div v-for="n in lineNumbers" :key="n" class="px-2">{{ n }}</div>
+    <div class="editor-body">
+      <div class="editor-surface">
+        <div class="line-gutter" aria-hidden="true">
+          <div v-for="n in lineNumbers" :key="n" class="line-no">{{ n }}</div>
         </div>
         <textarea
           ref="ta"
-          class="flex-1 p-3 font-mono text-[13px] leading-[1.6] text-[var(--text)] bg-[var(--bg-elevated)] border-none outline-none resize-none tab-[2] whitespace-pre-wrap overflow-auto min-h-0"
+          class="spec-textarea"
           spellcheck="false"
           :value="editor.content"
           placeholder="双击左侧 .spec 打开文件；步骤行输入 * 可触发 CPT Concept 补全。"
@@ -180,7 +173,7 @@ watch(
             :class="{ active: i === editor.lspIndex }"
             @mousedown.prevent="applyLsp(i)"
           >
-            <span class="lsp-kind">{{ item.kind || 'Concept' }}</span>
+            <el-tag size="small" type="success" effect="plain">{{ item.kind || 'Concept' }}</el-tag>
             <span>
               <div class="lsp-label">{{ item.label }}</div>
               <div class="lsp-detail">{{ item.detail }}</div>
@@ -188,28 +181,24 @@ watch(
           </button>
         </div>
       </div>
-      <div
-        class="flex items-center justify-between px-3 py-2 border-t border-[var(--border-soft)] bg-[var(--bg-panel)] text-[11px] text-[var(--text-muted)]"
-      >
-        <div class="flex gap-4">
-          <span :class="editor.dirty ? 'text-[var(--skip)] font-semibold' : ''">
-            {{ editor.dirty ? '未保存' : '未修改' }}
-          </span>
+      <div class="editor-status">
+        <el-space :size="16">
+          <span :class="editor.dirty ? 'dirty' : ''">{{ editor.dirty ? '未保存' : '未修改' }}</span>
           <span>行 {{ editor.cursor.line }}，列 {{ editor.cursor.col }}</span>
           <span>{{ editor.lineCount }} 行</span>
-        </div>
-        <div class="flex items-center gap-2">
-          <span class="lsp-badge" :class="lspBadgeClass">{{ lspBadgeText }}</span>
-          <button
-            type="button"
-            class="btn-ghost !py-0.5 !px-2.5 text-[11px]"
+        </el-space>
+        <el-space>
+          <el-tag :type="lspBadgeType" effect="light" round>{{ lspBadgeText }}</el-tag>
+          <el-button
+            :icon="RefreshRight"
             :disabled="editor.lspRestarting"
+            :loading="editor.lspRestarting"
             title="重启 Gauge LSP 服务"
             @click="editor.restartLsp()"
           >
             重启LSP
-          </button>
-        </div>
+          </el-button>
+        </el-space>
       </div>
     </div>
   </div>

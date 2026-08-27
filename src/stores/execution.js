@@ -789,7 +789,7 @@ export const useExecutionStore = defineStore('execution', {
         return
       }
       this.clearResults()
-      app.setPage('live')
+      app.goPage('live')
       try {
         await api().run.start({ specs, tags: app.tags })
       } catch (err) {
@@ -817,7 +817,7 @@ export const useExecutionStore = defineStore('execution', {
         return
       }
       const jobs = failed.map((r) => this._jobFromResult(r, app.tags))
-      app.setPage('live')
+      app.goPage('live')
       try {
         await api().run.retryFailed(jobs)
       } catch (err) {
@@ -831,7 +831,7 @@ export const useExecutionStore = defineStore('execution', {
       if (!cur) return
       const job = this._jobFromResult(cur, app.tags)
       job.label = cur.dataDriven ? `重试行 ${cur.rowIndex}` : '重试中'
-      app.setPage('live')
+      app.goPage('live')
       try {
         await api().run.retryOne(job)
       } catch (err) {

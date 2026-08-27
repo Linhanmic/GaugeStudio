@@ -1,5 +1,7 @@
 import { defineStore } from 'pinia'
+import { ElMessage } from 'element-plus'
 import { DEFAULT_SETTINGS } from '../../shared/constants.js'
+import router from '../router/index.js'
 
 const api = () => window.gaugeStudio
 
@@ -28,14 +30,11 @@ function restoreSpecFlags(node, set, flag) {
 
 export const useAppStore = defineStore('app', {
   state: () => ({
-    page: 'console',
     tags: '通用',
     settings: { ...DEFAULT_SETTINGS },
     settingsOpen: false,
     settingsPanel: 'general',
     project: null,
-    toast: '',
-    toastTimer: null,
     wsClients: 0,
     wsPort: 8080,
     status: { state: 'idle', text: '就绪' },
@@ -81,14 +80,16 @@ export const useAppStore = defineStore('app', {
       }
     },
     showToast(msg) {
-      this.toast = msg
-      clearTimeout(this.toastTimer)
-      this.toastTimer = setTimeout(() => {
-        this.toast = ''
-      }, 2400)
+      const text = String(msg || '')
+      let type = 'info'
+      if (/失败|未就绪/.test(text)) type = 'error'
+      else if (/警告|请/.test(text)) type = 'warning'
+      else if (/已/.test(text)) type = 'success'
+      ElMessage({ message: text, type, duration: 2400 })
     },
-    setPage(page) {
-      this.page = page
+    goPage(name) {
+      if (!name || router.currentRoute.value.name === name) return
+      router.push({ name })
     },
     async saveSettings(partial) {
       this.settings = await api().settings.save(partial)

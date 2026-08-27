@@ -43,6 +43,9 @@ export default defineConfig({
         '@shared': resolve('shared')
       }
     },
-    plugins: [vue()]
+    plugins: [vue()],
+    optimizeDeps: {
+      include: ['element-plus', '@element-plus/icons-vue', 'vue-router', 'pinia']
+    }
   }
 })

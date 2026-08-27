@@ -1,7 +1,7 @@
 {
   "name": "gaugestudio",
   "version": "0.1.0",
-  "description": "Gauge test management desktop app (Electron + Vue3)",
+  "description": "Gauge test management desktop app (Electron + Vue3 + Element Plus)",
   "author": "Linhanmic",
   "license": "MIT",
   "homepage": "https://github.com/Linhanmic/GaugeStudio",
@@ -21,18 +21,18 @@
     "dist:dir": "npm run build && electron-builder --win --dir"
   },
   "dependencies": {
+    "@element-plus/icons-vue": "^2.3.2",
+    "element-plus": "^2.9.8",
     "pinia": "^2.3.1",
     "vue": "^3.5.13",
+    "vue-router": "^4.5.1",
     "ws": "^8.18.1"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.2.3",
-    "autoprefixer": "^10.4.21",
     "electron": "^35.1.2",
     "electron-builder": "^26.15.3",
-    "electron-vite": "^3.1.0",
-    "postcss": "^8.5.3",
-    "tailwindcss": "^3.4.17"
+    "electron-vite": "^3.1.0"
   },
   "build": {
     "appId": "com.gaugestudio.app",
