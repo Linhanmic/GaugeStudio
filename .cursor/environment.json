@@ -1,0 +1,8 @@
+{
+  "name": "GaugeStudio + studio-reporter",
+  "repositoryDependencies": [
+    "github.com/Linhanmic/studio-reporter",
+    "github.com/Linhanmic/gauge-js-demo"
+  ],
+  "install": ".cursor/install.sh"
+}
